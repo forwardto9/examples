@@ -7,17 +7,18 @@ import (
 	"net/http"
 
 	"github.com/golang/protobuf/proto"
-	hello "github.com/micro/examples/greeter/api/rpc/proto/hello"
+	api "github.com/micro/micro/api/proto"
 )
 
 func main() {
-	req, err := proto.Marshal(&hello.Request{Name: "John"})
+
+	req, err := proto.Marshal(&api.Request{Get: map[string]*api.Pair{"name": {Key: "name", Values: []string{"John"}}}})
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	r, err := http.Post("http://localhost:8080/greeter/hello", "application/protobuf", bytes.NewReader(req))
+	r, err := http.Post("http://localhost:8080/greeter/say/hello", "application/protobuf", bytes.NewReader(req))
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -29,10 +30,11 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	rsp := &hello.Response{}
+
+	rsp := &api.Response{}
 	if err := proto.Unmarshal(b, rsp); err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(rsp.Msg)
+	fmt.Println(rsp.Body)
 }
