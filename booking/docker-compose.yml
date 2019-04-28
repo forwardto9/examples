@@ -12,6 +12,7 @@ micro:
   links:
     - consul
     - api
+    - apidemo
   ports:
     - "8080:8080"
 api:
@@ -23,6 +24,11 @@ api:
     - geo
     - profile
     - rate
+apidemo:
+  build: ./api/demo
+  command: --registry_address=consul:8500
+  links:
+    - consul
 auth:
   build: ./srv/auth
   command: --registry_address=consul:8500

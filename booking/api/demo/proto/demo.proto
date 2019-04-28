@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package demo;
+
+//import "google/protobuf/wrappers.proto";
+
+service Demo {
+    rpc Testapi (Request) returns (Response) {};
+}
+
+message Request {
+    string name = 1;
+}
+
+message Response {
+    Result result = 1;
+}
+
+message Result {
+    int32 code = 1;
+    string msg = 2;
+}
