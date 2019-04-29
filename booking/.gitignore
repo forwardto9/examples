@@ -1,6 +1,6 @@
-/demo/demo
-/hotel/hotel
-/auth/auth
-/geo/geo
-/profile/profile
-/rate/rate
+api/demo/demo
+api/hotel/hotel
+srv/auth/auth
+srv/geo/geo
+srv/profile/profile
+srv/rate/rate
