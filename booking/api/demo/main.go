@@ -48,10 +48,10 @@ func main() {
 	fmt.Print(result)
 
 	db, err := sql.Open("mysql", "uwei:uwei@/uwei")
-	defer db.Close()
 	if err != nil {
 		fmt.Print(err)
 	} else {
+		defer db.Close()
 		rows, _ := db.Query("select * from uwei_table")
 		for rows.Next() {
 			var name string
