@@ -10,6 +10,8 @@ import (
 
 	"golang.org/x/net/trace"
 
+	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/micro/examples/booking/api/demo/proto"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
@@ -44,6 +46,25 @@ func main() {
 	result.Code = -1
 
 	fmt.Print(result)
+
+	db, err := sql.Open("mysql", "uwei:uwei@/uwei")
+	defer db.Close()
+	if err != nil {
+		fmt.Print(err)
+	} else {
+		rows, _ := db.Query("select * from uwei_table")
+		for rows.Next() {
+			var name string
+			var id int
+			if err := rows.Scan(&id, &name); err != nil {
+				fmt.Print(err)
+			}
+			fmt.Printf("%s is %d\n", name, id)
+		}
+		if err := rows.Err(); err != nil {
+			fmt.Print(err)
+		}
+	}
 
 	trace.AuthRequest = func(req *http.Request) (any, sensitive bool) {
 		return true, true
