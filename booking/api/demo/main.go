@@ -45,21 +45,22 @@ func main() {
 	result.Msg = "this is from demo api"
 	result.Code = -1
 
-	fmt.Print(result)
+	fmt.Printf("%v\n", result)
 
-	db, err := sql.Open("mysql", "uwei:uwei@/uwei")
+	db, err := sql.Open("mysql", "uwei:uwei@/mydb")
 	if err != nil {
 		fmt.Print(err)
 	} else {
 		defer db.Close()
-		rows, _ := db.Query("select * from uwei_table")
+		rows, _ := db.Query("select * from mytable")
 		for rows.Next() {
 			var name string
 			var id int
-			if err := rows.Scan(&id, &name); err != nil {
+			var address string
+			if err := rows.Scan(&id, &name, &address); err != nil {
 				fmt.Print(err)
 			}
-			fmt.Printf("%s is %d\n", name, id)
+			fmt.Printf("%s is %d: %s\n", name, id, address)
 		}
 		if err := rows.Err(); err != nil {
 			fmt.Print(err)
